@@ -1,18 +1,29 @@
+import java.util.Random;
+import java.util.concurrent.CyclicBarrier;
+
 public class Main {
 
+	public static CyclicBarrier phaseBarrier;
+
+
 	public static void main(String[] args) {
+
+
+		Random rand = new Random();
+
 		int[] array = new int[30];  //creates an array of numbers to sort
 		for (int i = 0; i < array.length; i++) {
-			array[i] = (int)Math.random() * 20;
+			array[i] = rand.nextInt();
 		}
 
-		OddEvenSortThread[] threadArray = new OddEvenSortThread[4];  //creates threads
+
+		SortThread[] threadArray = new SortThread[4];  //creates threads
+		int startIndex = 0;
 		for (int i = 0; i < threadArray.length; i++) {
-			threadArray[i] = new OddEvenSortThread(array, );
+			threadArray[i] = new SortThread(array, startIndex, (array.length/2) / threadArray.length);
 		}
 
-
-
+		phaseBarrier = new CyclicBarrier(threadArray.length);
 
 		//Sets names of each thread and starts threads
 		for (int i = 0; i < threadArray.length; i++) {
